@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- ACTIONS - Definisikan action untuk menu -->
+        <!-- ============================================================ -->
+        
+        <!-- Main action untuk list view -->
+        <record id="action_example_model_list" model="ir.actions.act_window">
+            <field name="name">Examples</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">example.model</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="search_model_id" ref="example_model_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Tidak ada data. Klik "Create" untuk membuat record pertama!
+                </p>
+            </field>
+        </record>
+
+        <!-- Action untuk form view (create/edit) -->
+        <record id="action_example_model_form" model="ir.actions.act_window">
+            <field name="name">New Example</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">example.model</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="example_model_form"/>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- MENU ITEMS -->
+        <!-- ============================================================ -->
+        
+        <!-- Parent menu - Example (akan tampil di sidebar) -->
+        <menuitem id="menu_example_root" 
+                  name="Examples" 
+                  sequence="100"/>
+
+        <!-- Submenu - Examples List -->
+        <menuitem id="menu_example_model_list" 
+                  name="Examples" 
+                  action="action_example_model_list"
+                  parent="menu_example_root" 
+                  sequence="10"/>
+
+        <!-- Submenu - Create New Example -->
+        <menuitem id="menu_example_model_create" 
+                  name="Create Example" 
+                  action="action_example_model_form"
+                  parent="menu_example_root" 
+                  sequence="20"/>
+
+        <!-- ============================================================ -->
+        <!-- CLIENT ACTIONS (Optional - untuk custom buttons) -->
+        <!-- ============================================================ -->
+        
+        <!-- Contoh client action untuk print -->
+        <record id="action_print_example" model="ir.actions.client">
+            <field name="name">Print Example</field>
+            <field name="tag">display_notification</field>
+            <field name="params" eval="{'message': 'Print functionality - implement custom logic'}"/>
+        </record>
+
+    </data>
+</odoo>

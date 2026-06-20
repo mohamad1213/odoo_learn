@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_example_model_user,example.model - User,model_example_model,base.group_user,1,1,1,0
+access_example_model_manager,example.model - Manager,model_example_model,base.group_system,1,1,1,1
+access_example_tag_user,example.tag - User,model_example_tag,base.group_user,1,0,0,0
+access_example_tag_manager,example.tag - Manager,model_example_tag,base.group_system,1,1,1,1
+access_example_line_user,example.line - User,model_example_line,base.group_user,1,1,1,0
+access_example_line_manager,example.line - Manager,model_example_line,base.group_system,1,1,1,1

@@ -1,0 +1,49 @@
+# Git Ignore for Odoo Development
+
+# Environment & OS
+.env
+.env.local
+.env.*.local
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.pyc
+__pycache__/
+
+# Docker & Database
+var/lib/odoo/*
+var/lib/postgresql/*
+!var/lib/odoo/.gitkeep
+!var/lib/postgresql/.gitkeep
+
+# Python
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+*.vscode
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+logs/
+
+# Temporary
+.tmp/
+temp/
+*.bak
+*.backup
+
+# Node (jika menggunakan frontend tools)
+node_modules/
+npm-debug.log
+yarn-error.log

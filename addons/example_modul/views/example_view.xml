@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- FORM VIEW - Edit/Create record -->
+        <!-- ============================================================ -->
+        <record id="example_model_form" model="ir.ui.view">
+            <field name="name">example.model.form</field>
+            <field name="model">example.model</field>
+            <field name="arch" type="xml">
+                <form string="Example Form">
+                    <!-- Header dengan tombol action dan status -->
+                    <header>
+                        <button name="action_confirm" string="Confirm" 
+                                type="object" class="oe_highlight"
+                                states="draft"/>
+                        <button name="action_done" string="Mark as Done" 
+                                type="object" class="oe_highlight"
+                                states="confirmed"/>
+                        <button name="action_cancel" string="Cancel" 
+                                type="object"
+                                states="draft,confirmed"/>
+                        <field name="status" widget="statusbar" 
+                               clickable="True"/>
+                    </header>
+
+                    <sheet>
+                        <!-- Group 1: Main Fields -->
+                        <group>
+                            <group string="General Information">
+                                <field name="title"/>
+                                <field name="company_id" required="True"/>
+                                <field name="date_start"/>
+                                <field name="is_active"/>
+                            </group>
+
+                            <group string="Financial">
+                                <field name="quantity"/>
+                                <field name="price"/>
+                                <field name="total" readonly="True"/>
+                            </group>
+                        </group>
+
+                        <!-- Notebook/Tabs -->
+                        <notebook>
+                            <!-- Tab 1: Description -->
+                            <page string="Description" name="description">
+                                <field name="description"/>
+                            </page>
+
+                            <!-- Tab 2: Tags -->
+                            <page string="Tags" name="tags">
+                                <field name="tag_ids">
+                                    <!-- Many2many sebagai checkbox -->
+                                    <tree>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <!-- Tab 3: Lines -->
+                            <page string="Line Items" name="lines">
+                                <field name="line_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="quantity"/>
+                                        <field name="price"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <!-- Tab 4: Additional Info -->
+                            <page string="Additional Info" name="other">
+                                <group>
+                                    <field name="sequence"/>
+                                    <field name="date_created" readonly="True"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <!-- Footer untuk menampilkan info -->
+                    <footer>
+                        <p>Ini adalah contoh form untuk pembelajaran Odoo development</p>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- TREE VIEW - List records -->
+        <!-- ============================================================ -->
+        <record id="example_model_tree" model="ir.ui.view">
+            <field name="name">example.model.tree</field>
+            <field name="model">example.model</field>
+            <field name="arch" type="xml">
+                <tree string="Example List" 
+                      decoration-success="status == 'done'" 
+                      decoration-danger="status == 'cancelled'"
+                      decoration-warning="status == 'draft'">
+                    <field name="title"/>
+                    <field name="quantity"/>
+                    <field name="price"/>
+                    <field name="total"/>
+                    <field name="status"/>
+                    <field name="date_start"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- SEARCH VIEW - Filter dan search -->
+        <!-- ============================================================ -->
+        <record id="example_model_search" model="ir.ui.view">
+            <field name="name">example.model.search</field>
+            <field name="model">example.model</field>
+            <field name="arch" type="xml">
+                <search string="Search Example">
+                    <!-- Search fields -->
+                    <field name="title" string="Title"/>
+                    <field name="description" string="Description"/>
+                    <field name="status"/>
+
+                    <!-- Separator -->
+                    <separator/>
+
+                    <!-- Filter groups -->
+                    <filter string="Active" name="active" 
+                            domain="[('is_active', '=', True)]"/>
+                    <filter string="Inactive" name="inactive" 
+                            domain="[('is_active', '=', False)]"/>
+
+                    <separator/>
+
+                    <!-- Status filters -->
+                    <filter string="Draft" name="draft" 
+                            domain="[('status', '=', 'draft')]"/>
+                    <filter string="Confirmed" name="confirmed" 
+                            domain="[('status', '=', 'confirmed')]"/>
+                    <filter string="Done" name="done" 
+                            domain="[('status', '=', 'done')]"/>
+                    <filter string="Cancelled" name="cancelled" 
+                            domain="[('status', '=', 'cancelled')]"/>
+
+                    <separator/>
+
+                    <!-- Grouping -->
+                    <filter string="Group by Status" name="group_by_status" 
+                            context="{'group_by': 'status'}"/>
+                    <filter string="Group by Company" name="group_by_company" 
+                            context="{'group_by': 'company_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- KANBAN VIEW - Card/Board view -->
+        <!-- ============================================================ -->
+        <record id="example_model_kanban" model="ir.ui.view">
+            <field name="name">example.model.kanban</field>
+            <field name="model">example.model</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="status" string="Example Kanban">
+                    <field name="id"/>
+                    <field name="title"/>
+                    <field name="status"/>
+                    <field name="total"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card">
+                                <div class="oe_kanban_card_header">
+                                    <strong>
+                                        <field name="title"/>
+                                    </strong>
+                                </div>
+                                <div class="oe_kanban_card_content">
+                                    <p>
+                                        Total: <strong>
+                                            <field name="total"/>
+                                        </strong>
+                                    </p>
+                                </div>
+                                <div class="oe_kanban_card_footer">
+                                    <button type="object" name="action_confirm" 
+                                            string="Confirm" 
+                                            class="oe_button oe_button_small"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- PIVOT VIEW (Graph) -->
+        <!-- ============================================================ -->
+        <record id="example_model_pivot" model="ir.ui.view">
+            <field name="name">example.model.pivot</field>
+            <field name="model">example.model</field>
+            <field name="arch" type="xml">
+                <pivot string="Analysis">
+                    <field name="status" type="row"/>
+                    <field name="total" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- GRAPH VIEW -->
+        <!-- ============================================================ -->
+        <record id="example_model_graph" model="ir.ui.view">
+            <field name="name">example.model.graph</field>
+            <field name="model">example.model</field>
+            <field name="arch" type="xml">
+                <graph string="Graph" type="bar">
+                    <field name="status"/>
+                    <field name="total" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+    </data>
+</odoo>
