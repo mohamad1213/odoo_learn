@@ -1,0 +1,148 @@
+## Ringkasan Chapter 4: Security - A Brief Introduction (Odoo)
+
+### 1. Tujuan Security di Odoo
+
+Security digunakan untuk mengatur **siapa yang dapat mengakses data** dalam suatu model, seperti melihat, membuat, mengubah, atau menghapus data.
+
+### 2. Data Files (CSV)
+
+Odoo banyak menggunakan file CSV/XML untuk memuat data saat modul diinstal atau di-update.
+
+Contoh lokasi file:
+
+* `security/` → data keamanan (hak akses)
+* `views/` → tampilan
+* `data/` → data umum
+
+Semua file harus didaftarkan di `__manifest__.py`.
+
+```python
+'data': [
+    'security/ir.model.access.csv',
+]
+```
+
+### 3. Access Rights
+
+Hak akses disimpan pada model `ir.model.access` dan biasanya dibuat dalam file:
+
+```text
+security/ir.model.access.csv
+```
+
+Hak akses yang tersedia:
+
+| Permission | Fungsi         |
+| ---------- | -------------- |
+| Read       | Melihat data   |
+| Write      | Mengubah data  |
+| Create     | Membuat data   |
+| Unlink     | Menghapus data |
+
+### 4. Struktur File Access Rights
+
+Contoh:
+
+```csv
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_estate_property,access_estate_property,model_estate_property,base.group_user,1,1,1,1
+```
+
+Penjelasan:
+
+* `model_id:id` → model yang diberi akses.
+* `group_id:id` → grup pengguna yang mendapat akses.
+* `1` = diizinkan, `0` = tidak diizinkan.
+
+### 5. Model Harus Memiliki Access Rights
+
+Jika tidak ada access rights, Odoo akan menampilkan warning:
+
+```text
+The models ['estate.property'] have no access rules
+```
+
+Akibatnya, user tidak dapat mengakses data model tersebut.
+
+### 6. Langkah Menambahkan Access Rights
+
+1. Buat folder `security/`.
+2. Buat file `ir.model.access.csv`.
+3. Tambahkan aturan akses.
+4. Daftarkan file di `__manifest__.py`.
+5. Upgrade atau restart modul.
+
+### Kesimpulan
+
+Setiap model baru di Odoo sebaiknya memiliki file `ir.model.access.csv` agar user dapat mengakses data sesuai hak yang diberikan. Tanpa access rights, model tidak bisa digunakan oleh user.
+
+## Ringkasan: `ir`, `res`, dan `ir.model.access.csv` di Odoo
+
+### 1. `ir` = Information Repository
+
+Digunakan untuk model yang menyimpan **konfigurasi dan metadata sistem Odoo**.
+
+Contoh:
+
+* `ir.model` → daftar model
+* `ir.model.fields` → daftar field
+* `ir.model.access` → hak akses
+* `ir.ui.view` → tampilan (view)
+
+---
+
+### 2. `res` = Resource
+
+Digunakan untuk model yang menyimpan **data master atau data bisnis**.
+
+Contoh:
+
+* `res.users` → pengguna
+* `res.partner` → pelanggan/supplier/kontak
+* `res.company` → perusahaan
+* `res.country` → negara
+
+---
+
+### 3. Kenapa Namanya `ir.model.access.csv`?
+
+Karena file tersebut digunakan untuk mengimpor data ke model:
+
+```text
+ir.model.access
+```
+
+yang berfungsi menyimpan **aturan hak akses (Access Rights)**.
+
+Contoh isi:
+
+```csv
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_estate_property,access_estate_property,model_estate_property,base.group_user,1,1,1,1
+```
+
+---
+
+### 4. Fungsi `ir.model.access`
+
+Mengatur hak pengguna terhadap suatu model:
+
+| Permission | Fungsi         |
+| ---------- | -------------- |
+| Read       | Melihat data   |
+| Write      | Mengubah data  |
+| Create     | Membuat data   |
+| Unlink     | Menghapus data |
+
+---
+
+### Cara Mudah Mengingat
+
+| Prefix    | Arti               | Contoh                     |
+| --------- | ------------------ | -------------------------- |
+| `ir`      | Konfigurasi sistem | `ir.model`, `ir.ui.view`   |
+| `res`     | Data master/bisnis | `res.users`, `res.partner` |
+| `mail`    | Komunikasi         | `mail.message`             |
+| `account` | Akuntansi          | `account.move`             |
+
+**Intinya:** `ir.model.access.csv` adalah file yang berisi aturan hak akses untuk model di Odoo, sedangkan `ir` berarti *Information Repository* dan `res` berarti *Resource*.
