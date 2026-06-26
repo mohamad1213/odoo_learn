@@ -1,0 +1,306 @@
+## Ringkasan Chapter 5: Finally, Some UI To Play With (Odoo 17)
+
+Pada chapter ini, Anda mulai menampilkan model `estate.property` ke antarmuka Odoo (UI). Setelah sebelumnya membuat model dan security, sekarang fokusnya adalah **Action, Menu, dan Default View**. ([Simbioz EMS][1])
+
+---
+
+# 1. XML Digunakan untuk UI
+
+Jika CSV cocok untuk data sederhana, maka XML digunakan untuk data yang lebih kompleks seperti:
+
+* Menu
+* Action
+* View
+* Email Template
+
+File XML biasanya disimpan di folder:
+
+```text
+views/
+```
+
+dan harus didaftarkan di:
+
+```python
+__manifest__.py
+```
+
+Contoh:
+
+```python
+'data': [
+    'views/estate_property_views.xml',
+    'views/estate_menus.xml',
+]
+```
+
+Data XML akan dimuat saat module di-install atau di-upgrade. ([Simbioz EMS][1])
+
+---
+
+# 2. Konsep Dasar UI Odoo
+
+Struktur UI Odoo umumnya:
+
+```text
+Menu
+ ↓
+Action
+ ↓
+View
+ ↓
+Model
+```
+
+Artinya:
+
+```text
+User klik Menu
+ ↓
+Menjalankan Action
+ ↓
+Membuka View
+ ↓
+Menampilkan Data Model
+```
+
+([Simbioz EMS][1])
+
+---
+
+# 3. Action
+
+Action berfungsi sebagai penghubung antara menu dan model.
+
+Contoh:
+
+```xml
+<record id="estate_property_action" model="ir.actions.act_window">
+    <field name="name">Properties</field>
+    <field name="res_model">estate.property</field>
+    <field name="view_mode">list,form</field>
+</record>
+```
+
+Penjelasan:
+
+| Field     | Fungsi            |
+| --------- | ----------------- |
+| name      | Nama action       |
+| res_model | Model yang dibuka |
+| view_mode | Jenis view        |
+
+([Simbioz EMS][1])
+
+---
+
+# 4. Menu
+
+Odoo biasanya memiliki 3 level menu:
+
+### Root Menu
+
+Muncul di App Switcher.
+
+```text
+Real Estate
+```
+
+### First Level Menu
+
+Muncul di bagian atas.
+
+```text
+Advertisements
+```
+
+### Action Menu
+
+Menjalankan action.
+
+```text
+Properties
+```
+
+Struktur:
+
+```xml
+<menuitem id="estate_menu_root" name="Real Estate">
+    <menuitem id="estate_advertisements_menu" name="Advertisements">
+        <menuitem
+            id="estate_property_menu"
+            action="estate_property_action"/>
+    </menuitem>
+</menuitem>
+```
+
+([Simbioz EMS][1])
+
+---
+
+# 5. Field Attributes Baru
+
+Chapter ini memperkenalkan beberapa atribut field.
+
+### readonly
+
+Field tidak bisa diedit.
+
+```python
+selling_price = fields.Float(
+    readonly=True
+)
+```
+
+---
+
+### copy
+
+Menentukan apakah nilai ikut disalin saat duplicate.
+
+```python
+availability_date = fields.Date(
+    copy=False
+)
+```
+
+Saat record di-duplicate:
+
+```text
+Original Record
+↓
+Duplicate
+↓
+availability_date kosong
+```
+
+([Simbioz EMS][1])
+
+---
+
+# 6. Default Value
+
+Memberikan nilai awal otomatis.
+
+Contoh:
+
+```python
+bedrooms = fields.Integer(
+    default=2
+)
+```
+
+atau
+
+```python
+name = fields.Char(
+    default="Unknown"
+)
+```
+
+Untuk tanggal:
+
+```python
+from datetime import timedelta
+
+availability_date = fields.Date(
+    default=lambda self:
+        fields.Date.today() + timedelta(days=90)
+)
+```
+
+([Simbioz EMS][1])
+
+---
+
+# 7. Reserved Field: active
+
+`active` adalah field khusus yang sudah dikenali Odoo.
+
+```python
+active = fields.Boolean(
+    default=True
+)
+```
+
+Jika:
+
+```python
+active = False
+```
+
+maka record otomatis disembunyikan dari hasil pencarian dan list view. ([Simbioz EMS][1])
+
+---
+
+# 8. Reserved Field: state
+
+Field `state` digunakan untuk menyimpan status record.
+
+Contoh:
+
+```python
+state = fields.Selection([
+    ('new', 'New'),
+    ('offer_received', 'Offer Received'),
+    ('offer_accepted', 'Offer Accepted'),
+    ('sold', 'Sold'),
+    ('canceled', 'Canceled'),
+],
+default='new',
+required=True,
+copy=False)
+```
+
+Kegunaan:
+
+* Menentukan status bisnis
+* Digunakan untuk workflow
+* Digunakan untuk tombol dan warna status pada UI
+
+([Simbioz EMS][1])
+
+---
+
+# Ringkasan Super Singkat
+
+Chapter 5 mengajarkan cara menampilkan model ke UI Odoo:
+
+### XML
+
+Untuk mendefinisikan:
+
+* Action
+* Menu
+* View
+
+### Alur UI
+
+```text
+Menu
+ ↓
+Action
+ ↓
+View
+ ↓
+Model
+```
+
+### Field Attribute Baru
+
+| Attribute     | Fungsi               |
+| ------------- | -------------------- |
+| readonly=True | Tidak bisa diedit    |
+| copy=False    | Tidak ikut duplicate |
+| default=...   | Nilai default        |
+
+### Reserved Fields
+
+| Field  | Fungsi                            |
+| ------ | --------------------------------- |
+| active | Menampilkan/menyembunyikan record |
+| state  | Menyimpan status workflow         |
+
+Hasil akhir chapter ini adalah aplikasi **Real Estate** sudah muncul di menu Odoo dan user bisa membuka, melihat, serta membuat data `estate.property` melalui antarmuka web. ([Simbioz EMS][1])
+
+[1]: https://simbiozems.com/documentation/17.0/developer/tutorials/server_framework_101/05_firstui.html?utm_source=chatgpt.com "Chapter 5: Finally, Some UI To Play With — Odoo 17.0 documentation"
