@@ -1,0 +1,4 @@
+<odoo>
+    <menuitem id="library_root" name="Library" sequence="10"/>
+    <menuitem id="library_book" name="Books" parent="library_root" action="library_book_action" sequence="10"/>
+</odoo>

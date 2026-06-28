@@ -57,7 +57,7 @@ define upgrade_addons
 endef
 
 addon: restart
-	@sleep 5
+	@sleep 7
 	@$(call upgrade_addons, $(word 2, $(MAKECMDGOALS)))
 
 .PHONY:  start stop restart console psql logs odoo db

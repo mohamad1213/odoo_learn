@@ -1,0 +1,283 @@
+Karena kamu sudah belajar **Model**, **Security**, dan **First UI**, saya sarankan membuat project yang sederhana tetapi mencakup konsep-konsep penting Odoo. Saya pilih proyek yang tidak terlalu sulit namun cukup realistis.
+
+# Project: Manajemen Perpustakaan
+
+## Deskripsi
+
+Buat modul Odoo bernama **library_management**.
+
+Modul ini digunakan untuk mencatat buku yang dimiliki perpustakaan.
+
+---
+
+# Target Akhir
+
+Nantinya pengguna bisa
+
+* Melihat daftar buku
+* Menambah buku
+* Mengedit buku
+* Menghapus buku
+* Mengakses melalui menu "Library"
+
+Seperti ini
+
+```
+Library
+    └── Books
+```
+
+Ketika klik **Books**
+
+```
++-----------------------------------------------------+
+| Title                  Author         Price         |
++-----------------------------------------------------+
+| Django untuk Pemula    Tatam          120000        |
+| Odoo 17 Handbook       John           200000        |
+| Flask Master           David          95000         |
++-----------------------------------------------------+
+```
+
+Klik salah satu buku
+
+```
+Book
+
+Title          : Django untuk Pemula
+Author         : Tatam
+Price          : 120000
+Published Year : 2025
+Available      : ☑
+Description    : ....
+```
+
+---
+
+# Yang Harus Dibuat
+
+## 1. Module
+
+```
+library_management/
+```
+
+---
+
+## 2. Model
+
+Buat model
+
+```python
+_name = "library.book"
+```
+
+Field
+
+| Field        | Type    |
+| ------------ | ------- |
+| title        | Char    |
+| author       | Char    |
+| price        | Float   |
+| publish_year | Integer |
+| available    | Boolean |
+| description  | Text    |
+
+---
+
+## 3. Security
+
+Buat
+
+```
+security/ir.model.access.csv
+```
+
+Agar user dapat CRUD.
+
+---
+
+## 4. Tree View
+
+Tampilkan
+
+```
+Title
+Author
+Price
+Available
+```
+
+---
+
+## 5. Form View
+
+Susun seperti ini
+
+```
+Title
+
+Author
+Price
+
+Publish Year
+Available
+
+Description
+```
+
+---
+
+## 6. Action
+
+Buat action
+
+```
+Books
+```
+
+yang membuka
+
+```
+library.book
+```
+
+---
+
+## 7. Menu
+
+```
+Library
+    Books
+```
+
+---
+
+# Bonus Challenge 1
+
+Tambahkan field
+
+```
+category
+```
+
+Pilihan
+
+```
+Programming
+Novel
+Science
+History
+Religion
+```
+
+Gunakan
+
+```python
+fields.Selection()
+```
+
+---
+
+# Bonus Challenge 2
+
+Tambahkan field
+
+```
+cover
+```
+
+Gunakan
+
+```python
+fields.Image()
+```
+
+Sehingga form menjadi
+
+```
+-----------------------------
+| Cover                      |
+|                            |
+-----------------------------
+
+Title
+
+Author
+
+Price
+
+Description
+```
+
+---
+
+# Bonus Challenge 3
+
+Tambahkan filter
+
+```
+Available Books
+```
+
+Sehingga hanya menampilkan buku yang tersedia.
+
+---
+
+# Bonus Challenge 4
+
+Tambahkan Search
+
+Bisa mencari berdasarkan
+
+* Judul
+* Penulis
+
+---
+
+# Struktur Folder
+
+```
+library_management/
+│
+├── __init__.py
+├── __manifest__.py
+│
+├── models/
+│   ├── __init__.py
+│   └── library_book.py
+│
+├── security/
+│   └── ir.model.access.csv
+│
+└── views/
+    └── library_book_views.xml
+```
+
+---
+
+# Ilmu Odoo yang Akan Dipakai
+
+✅ Membuat Module
+
+✅ Manifest
+
+✅ Model
+
+✅ Fields
+
+✅ Security
+
+✅ XML
+
+✅ Tree View
+
+✅ Form View
+
+✅ Action
+
+✅ Menu
+
+---
+
+Project ini sangat cocok untuk pemula karena mencakup alur lengkap pengembangan modul Odoo: mulai dari mendefinisikan model Python, memberikan hak akses, membuat tampilan daftar dan formulir, hingga menghubungkannya ke menu melalui action. Setelah menyelesaikannya, kamu akan memiliki fondasi yang kuat untuk mempelajari relasi antar model (`Many2one`, `One2many`), computed field, wizard, dan fitur Odoo yang lebih lanjut.

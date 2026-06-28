@@ -1,0 +1,115 @@
+<odoo>
+    <!-- Action -->
+    <record id="estate_property_type_action" model="ir.actions.act_window">
+        <!-- nama menunya  -->
+        <field name="name">Property Types</field>
+        <field name="res_model">estate.property.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Search and filter -->
+     <record id="estate-property_type_view_search_filter" model="ir.ui.view">
+        <field name="name">estate.property.type.view.search.filter</field>
+        <field name="model">estate.property.type</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+     </record>
+
+    <record id="estate_property_type_tree_view" model="ir.ui.view">
+        <field name="name">estate.property.type.view.tree</field>
+        <field name="model">estate.property.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="description" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="estate_property_type_form_view" model="ir.ui.view">
+        <field name="name">estate.property.type.view.form</field>
+        <field name="model">estate.property.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="description" />
+                        <field name="property_ids" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+     <!-- Tree -->
+    <!-- <record id="estate_property_tree_view" model="ir.ui.view">
+        <field name="name">estate.property.view.tree</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml"> -->
+            <!-- Menampilkan data dalam bentuk tabel (tree view) dengan kolom-kolom yang ditentukan. 
+            ada dua cari yaitu dari xml atau dari modelsnya 
+
+            jika dari xml menggunakan string seperti ini <field name="name" string="Title"/>
+            sedangkan jika di models menggunakan field name seperti ini name = fields.Char("Title",
+            required=True) -->
+            <!-- <tree>
+                <field name="name" string="Title" />
+                <field name="postcode" string="Postcode" />
+                <field name="bedrooms" string="Bedrooms" />
+                <field name="living_area" string="Living Area (sqm)" />
+                <field name="expected_price" string="Expected Price" />
+                <field name="selling_price" string="Selling Price" />
+                <field name="date_availability" string="Available From" />
+                <field name="state" string="Status" />
+            </tree>
+        </field>
+    </record> -->
+
+    <!-- Form View -->
+    <!-- <record id="estate_property_form_view" model="ir.ui.view">
+        <field name="name">estate.property.view.form</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="postcode" />
+                            <field name="date_availability" />
+                            <field name="state" groups="base.group_no_one" />
+                        </group>
+                        <group>
+                            <field name="expected_price" />
+                            <field name="selling_price" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Property Details">
+                            <field name="description" string="Description" />
+                            <field name="bedrooms" string="Bedrooms" />
+                            <field name="living_area" string="Living Area (sqm)" />
+                            <field name="facades" string="Facades" />
+                            <field name="garage" string="Garage" />
+                            <field name="garden" string="Garden" />
+                            <field name="garden_area" string="Garden Area (sqm)" />
+                            <field name="garden_orientation" string="Garden Orientation" />
+                        </page>
+                        <page string="Active">
+                            <group>
+                                <field name="active" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record> -->
+</odoo>

@@ -1,14 +1,13 @@
 {
-    'name': 'Real estate management',
+    'name': 'Library Book',
     'version': '1.0',
     'depends': [
         'base',
     ],
     'data': [
+        'views/library_book_views.xml',
+        'views/library_menus.xml',
         'security/ir.model.access.csv',
-        'views/estate_property_views.xml',
-        'views/estate_property_type_views.xml',
-        'views/estate_menus.xml',
     ],
     'application': True,
     'license': 'LGPL-3',
