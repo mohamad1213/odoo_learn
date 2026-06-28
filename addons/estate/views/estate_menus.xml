@@ -1,6 +1,9 @@
 <odoo>
-    <menuitem id="estate_property_root" name="Real Estate">
+    <!-- The root menu, which is displayed in the App switcher (the Odoo Community App switcher is a dropdown menu) -->
+    <menuitem id="estate_property_root" name="Real Estate"> 
+        <!-- The first level menu, displayed in the top bar -->
         <menuitem id="estate_property_first_level_menu" name="Advertisements">
+           <!-- The action menus -->
             <menuitem id="estate_property_model_menu_action" action="estate_property_action" name="Properties"/>
         </menuitem>
     </menuitem>

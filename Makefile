@@ -56,7 +56,8 @@ define upgrade_addons
 	$(DOCKER) exec -it $(CONTAINER_ODOO) odoo --db_host=$(CONTAINER_DB) -d $(WEB_DB_NAME) -r $(CONTAINER_ODOO) -w $(CONTAINER_ODOO) -u $(1)
 endef
 
-addon: 
-	$(call upgrade_addons, $(word 2, $(MAKECMDGOALS)))
+addon: restart
+	@sleep 5
+	@$(call upgrade_addons, $(word 2, $(MAKECMDGOALS)))
 
 .PHONY:  start stop restart console psql logs odoo db
